@@ -1,0 +1,85 @@
+#include<stdio.h> 
+#include<String.h>
+struct s1
+{
+char first[50]; int second;
+};
+struct s2
+{
+int first; int burst1;
+struct s1 s2;
+};
+struct ans{
+char first[100]; int arrival;
+int burst2; int second;
+};
+int main()
+{
+int process;
+printf("Enter No. of processes : "); scanf("%d",&process);
+int process1 = process; struct s2 a[process]; struct ans a1[process];
+int priority[process]; int burst[process]; int i;
+for(i=0;i<process;i++)
+{
+printf("\n\nEnter Process %d Name : ",i+1); scanf("%s",&a[i].s2.first);
+printf("Enter Process %d Arrival Time : ",i+1); scanf("%d",&a[i].first);
+printf("Enter Process %d Priority : ",i+1); scanf("%d",&priority[i]);
+printf("Enter Process %d Burst Time : ",i+1); scanf("%d",&a[i].s2.second); a[i].burst1=a[i].s2.second;
+}
+printf("\n"); int j;
+for(i=0;i<process-1;i++)
+{
+for(j=i+1;j<process;j++)
+{
+struct s2 temp; if(a[i].first==a[j].first)
+{
+if(priority[i]<priority[j])
+{
+temp = a[i]; a[i] = a[j]; a[j] = temp;
+}
+}
+else if((a[i].first)>(a[j].first))
+{
+temp = a[i]; a[i] = a[j]; a[j] = temp;
+}
+}
+}
+int time = 2; int k = 0; signed int l=0; while(process>0)
+{
+if(a[0].s2.second-time<=0)
+{
+k = k + a[0].s2.second;
+strcpy(a1[l].first,a[0].s2.first); a1[l].second = k;
+a1[l].arrival = a[0].first; a1[l].burst2 = a[0].burst1; l=l+1;
+struct s2 temp; for(i=0;i<process-1;i++)
+{
+temp = a[i]; a[i] = a[i+1]; a[i+1] = temp;
+}
+process = process-1;
+}
+else
+{
+k = k + time;
+a[0].s2.second = a[0].s2.second - time; struct s2 temp;
+struct s2 temp1 = a[0]; for(i=0;i<process-1;i++)
+{
+temp = a[i]; a[i] = a[i+1]; a[i+1] = temp;
+}
+process = process-1; a[process] = temp1;
+++process;
+}
+}
+printf("Process Name\t Arrival Time\t Completion Time\t Turn Around Time\t Waiting Time\n"); float avgturn=0; float avgwait=0;
+for(i=0;i<process1;i++)
+{	
+printf("\t%s\t",a1[i].first); 
+printf("	%d\t ",a1[i].arrival);
+
+printf("\t %d ms ",a1[i].second);
+printf("\t\t %d\t ",a1[i].second-a1[i].arrival); avgturn = avgturn + a1[i].second-a1[i].arrival;
+printf("\t\t %d \n",(a1[i].second-a1[i].arrival)-(a1[i].burst2)); avgwait = avgwait + a1[i].second - a1[i].arrival - a1[i].burst2;
+}
+
+printf("\n\n\n\n\nAverage waiting time is:- %f", avgwait/(process1*1.0));
+printf("\t\t\tAverage turn around time is:- %f\n", avgturn/(process1*1.0)); 
+}
